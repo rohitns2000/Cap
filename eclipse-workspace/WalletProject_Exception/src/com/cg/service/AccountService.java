@@ -1,17 +1,20 @@
 package com.cg.service;
 
 import com.cg.bean.Account;
+import com.cg.exception.InsufficientFundException;
 
 public class AccountService implements Gst,Transaction{
 
 	@Override
-	public double withdraw(Account ob, double amount) {
+	public double withdraw(Account ob, double amount) throws InsufficientFundException {
 			// TODO Auto-generated method stub
 			double new_balance=ob.getBalance()-amount;
 			if(new_balance < 1000)
 			{
 				new_balance=ob.getBalance();
-				System.out.println("Insufficient Balance");
+				//System.out.println("Insufficient Balance");
+				//throw new RuntimeException("Insufficient Fund. Cannot Process Withdrawal");
+				throw new InsufficientFundException("Insufficient Fund. Cannot Process Withdrawal",new_balance);
 			}
 			ob.setBalance(new_balance);
 			return new_balance;
